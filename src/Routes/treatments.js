@@ -168,7 +168,7 @@ router.get('/user/:userId/date-range', async (req, res) => {
                 $lte: new Date(endDate)
             }
         })
-            .populate('clientId', 'firstName lastName')
+            .populate('clientId', 'name lastName')
             .sort({ treatmentDate: 1 });
 
         res.json(treatments);
@@ -215,44 +215,69 @@ router.get('/:clientId', async (req, res) => {
 });
 
 
-// Add new treatment for a client
+// Add new treatment(s) for a client
 router.post('/:clientId', async (req, res) => {
     try {
         const { clientId } = req.params;
         const {
-            // sessionNumber,
-
             treatmentDate,
             treatmentSummary,
             homework,
             whatNext,
-            treatmentPrice,
-            /*  paymentStatus,
-             PaymentMethod,
-             payDate */
+            repeatStatus, // "never" or "every week"
+            numberOfMeetings // Number of total meetings
         } = req.body;
-        const patiant = await Client.findOne({ _id: clientId })
 
-        const newTreatment = new Treatment({
-            userId: patiant.adminId,
-            clientId,
-            treatmentPrice: patiant.clientPrice,
-            // sessionNumber,
-            treatmentDate,
-            treatmentSummary,
-            homework,
-            whatNext,
-            /*  paymentStatus,
-             PaymentMethod,
-             payDate, */
-            createdAt: new Date().toISOString(),
-        });
+        const client = await Client.findOne({ _id: clientId });
 
-        // Save the new treatment to the database
-        const savedTreatment = await newTreatment.save();
+        if (!client) {
+            return res.status(404).json({ message: 'Client not found' });
+        }
 
-        res.status(201).json(savedTreatment);
+        let existingTreatments = await Treatment.find({ clientId: clientId });
+        let numberOfTreatments = existingTreatments.length;
+        console.log("numberOfTreatments:", numberOfTreatments, "number of meetings:", numberOfMeetings)
+        let treatments = [];
+
+        if (numberOfTreatments >= numberOfMeetings - 1) {
+            const newTreatment = new Treatment({
+                userId: client.adminId,
+                clientId,
+                treatmentPrice: client.clientPrice > 0 ? client.clientPrice : 0,
+                treatmentDate: new Date(treatmentDate), // Ensure this is a new Date object
+                treatmentSummary,
+                homework,
+                whatNext,
+                createdAt: new Date().toISOString(),
+            });
+            await newTreatment.save();
+            res.json(newTreatment);
+            return;
+        }
+
+        for (let i = numberOfTreatments; i < numberOfMeetings; i++) {
+            const currentTreatmentDate = new Date(treatmentDate); // Create a new Date object for each iteration
+            currentTreatmentDate.setDate(currentTreatmentDate.getDate() + (i * 7)); // Increment by weeks
+
+            const newTreatment = new Treatment({
+                userId: client.adminId,
+                clientId,
+                treatmentPrice: client.clientPrice > 0 ? client.clientPrice : 0,
+                treatmentDate: currentTreatmentDate,
+                treatmentSummary,
+                homework,
+                whatNext,
+                createdAt: new Date().toISOString(),
+            });
+
+            treatments.push(newTreatment);
+        }
+        console.log("treaments:", treatments)
+        const savedTreatments = await Treatment.insertMany(treatments);
+
+        res.status(201).json(savedTreatments);
     } catch (error) {
+        console.error("Error saving treatments:", error);
         res.status(500).json({ message: error.message });
     }
 });

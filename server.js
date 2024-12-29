@@ -10,6 +10,7 @@ const path = require("path");
 app.use(cors());
 app.use(express.json());
 
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
@@ -24,6 +25,9 @@ app.use("/api/auth", require("./src/Routes/auth"));
 app.use("/api/clients", require("./src/Routes/clients"));
 app.use("/api/treatments", require("./src/Routes/treatments"));
 app.use("/api/payments", require("./src/Routes/payments"));
+app.use("/api/home", require("./src/Routes/home"));
+app.use("/api/profile", require("./src/Routes/profile"));
+/* app.use("/api/profile", require("./src/Routes/profile")); */
 /* app.use("/api/event", require("./src/Routes/Event"));
 app.use("/api/team", require("./src/Routes/Team"));
 app.use("/api/suggestions", require("./src/Routes/Suggestions"));
