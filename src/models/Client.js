@@ -5,6 +5,7 @@ const ClientSchema = new mongoose.Schema({
     lastName: String,
     birthday: Date,
     gender: String,
+    idNumber: { type: String, default: "" },
     description: String,
     parents: [{
         parentName: String,
@@ -14,7 +15,7 @@ const ClientSchema = new mongoose.Schema({
     }],
     insuranceInfo: String,
     clientPrice: { type: Number, default: 0, },
-    numberOfMeetings: Number,
+    numberOfMeetings: { type: Number, default: 0 },
     adminId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     createdAt: {
         type: String,

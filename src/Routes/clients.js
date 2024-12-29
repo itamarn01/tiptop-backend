@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Client = require('../models/Client');
+const Treatment = require('../models/Treatment')
+const Payment = require('../models/Payment')
+
 console.log("client:", Client)
 
 
@@ -59,7 +62,7 @@ router.get('/:clientId/:adminId', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { name, lastName, birthday, gender, adminId } = req.body;
-        const newClient = new Client({ name, lastName, birthday, adminId, gender });
+        const newClient = new Client({ name, lastName, birthday, adminId, gender, });
         console.log("newClient adminid:", newClient.adminId)
         await newClient.save();
         res.json(newClient);
@@ -124,13 +127,22 @@ router.delete('/:clientId/:adminId', async (req, res) => {
     try {
         const { clientId, adminId } = req.params;
 
+        // Delete the client
         const client = await Client.findOneAndDelete({ _id: clientId, adminId });
 
         if (!client) {
             return res.status(404).json({ message: 'Client not found' });
         }
 
-        res.json({ message: 'Client deleted successfully' });
+        // Delete all treatments associated with this client
+        await Treatment.deleteMany({ clientId });
+
+        // Delete all payments associated with this client
+        await Payment.deleteMany({ clientId });
+
+        res.json({
+            message: 'Client and associated treatments and payments deleted successfully'
+        });
     } catch (error) {
         console.error('Error deleting client:', error);
         res.status(500).json({ message: 'Server error' });
