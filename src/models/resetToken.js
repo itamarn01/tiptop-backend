@@ -10,6 +10,9 @@ const resetTokenSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String
+    },
     createdAt: {
         type: Date,
         default: Date.now,

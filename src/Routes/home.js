@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 router.get('/user/:userId/stats', async (req, res) => {
     try {
         const { userId } = req.params;
-        console.log("getting user statistics")
+        // console.log("getting user statistics")
         // Fetch client count
         const clientCount = await Client.countDocuments({ adminId: userId });
 
@@ -16,7 +16,12 @@ router.get('/user/:userId/stats', async (req, res) => {
         const treatmentCount = await Treatment.countDocuments({ userId });
 
         const treatmentPriceStats = await Treatment.aggregate([
-            { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+            {
+                $match: {
+                    userId: new mongoose.Types.ObjectId(userId),
+                    status: { $nin: ['CANCELED', 'NO_SHOW'] }
+                }
+            },
             {
                 $group: {
                     _id: null,

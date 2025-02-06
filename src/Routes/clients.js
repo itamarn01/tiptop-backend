@@ -3,7 +3,9 @@ const router = express.Router();
 const Client = require('../models/Client');
 const Treatment = require('../models/Treatment')
 const Payment = require('../models/Payment')
-
+const Token = require('../models/Token')
+const crypto = require("crypto");
+const User = require("../models/User");
 console.log("client:", Client)
 
 
@@ -200,10 +202,9 @@ router.patch('/:clientId/updateField', async (req, res) => {
                 return res.status(400).json({ message: 'Description must be a non-empty string' });
             }
         }
-
         // Create update object
         const updateObj = { [field]: value };
-
+        console.log("updated obj:", updateObj)
         const updatedClient = await Client.findByIdAndUpdate(
             clientId,
             { $set: updateObj },
@@ -299,5 +300,120 @@ router.delete('/:clientId/parents/:parentId', async (req, res) => {
         res.status(500).json({ message: 'Error deleting parent', error });
     }
 });
+
+router.post("/generate-form-link", async (req, res) => {
+    const { adminId, api } = req.body;
+
+    try {
+        // Generate a random token
+        const token = crypto.randomBytes(16).toString("hex");
+
+        // Save token and adminId to the Token collection
+        const newToken = new Token({ token, adminId });
+        await newToken.save();
+
+        const link = `${api}/form/${token}`; // Replace with your actual domain
+        const user = await User.findOneAndUpdate({ _id: adminId }, { formLink: link })
+
+        return res.status(200).json({ link, user });
+    } catch (error) {
+        console.error("Error generating form link:", error);
+        return res.status(500).json({ message: "Error generating form link" });
+    }
+});
+
+
+
+// // Render the form with therapist data
+// router.get("/form/:token", async (req, res) => {
+//     const { token } = req.params;
+
+//     try {
+//         // Validate the token and retrieve adminId (therapist's ID)
+//         const tokenData = await Token.findOne({ token });
+//         if (!tokenData) {
+//             return res.status(400).send("Invalid or expired token.");
+//         }
+
+//         // Fetch the therapist's details
+//         const therapist = await User.findById(tokenData.adminId);
+//         if (!therapist) {
+//             return res.status(404).send("Therapist not found.");
+//         }
+//         console.log("therapist:", therapist)
+//         // Render the EJS form and pass therapist data
+//         res.render("form", {
+//             therapist: {
+//                 profileImage: therapist.profileImage,
+//                 name: therapist.name,
+//                 email: therapist.email,
+//                 phone: therapist.phone,
+//             },
+//         });
+//     } catch (error) {
+//         console.error("Error rendering form:", error);
+//         res.status(500).send("Internal Server Error.");
+//     }
+// });
+
+// /**
+//  * Render the form for patients using the token.
+//  */
+// /* router.get("/form/:token", async (req, res) => {
+//     const { token } = req.params;
+
+//     try {
+//         // Check if the token exists and is valid
+//         const tokenData = await Token.findOne({ token });
+//         if (!tokenData) {
+//             return res.status(404).send("Invalid or expired token.");
+//         }
+
+//         // Render the EJS form page
+//         res.render("form", { token }); // Pass the token to the EJS form template
+//     } catch (error) {
+//         console.error("Error rendering form:", error);
+//         res.status(500).send("Error loading form.");
+//     }
+// }); */
+
+// /**
+//  * Handle form submission and save patient data.
+//  */
+// router.post("/submit-form/:token", async (req, res) => {
+//     const { token } = req.params;
+//     const { name, lastName, birthday, gender, idNumber, description, parents, insuranceInfo } = req.body;
+
+//     try {
+//         // Validate token and retrieve associated adminId
+//         const tokenData = await Token.findOne({ token });
+//         if (!tokenData) {
+//             return res.status(400).json({ message: "Invalid or expired token" });
+//         }
+
+//         // Create a new client and associate with the admin
+//         const newClient = new Client({
+//             name,
+//             lastName,
+//             birthday,
+//             gender,
+//             idNumber,
+//             description,
+//             parents,
+//             insuranceInfo,
+//             adminId: tokenData.adminId, // Use adminId from the token
+//         });
+
+//         await newClient.save();
+
+//         // Delete the token after successful submission
+//         await Token.deleteOne({ token });
+
+//         return res.status(201).json({ message: "Client information saved successfully", client: newClient });
+//     } catch (error) {
+//         console.error("Error submitting form:", error);
+//         return res.status(500).json({ message: "Error submitting form" });
+//     }
+// });
 
 module.exports = router;

@@ -3,13 +3,15 @@ const cors = require('cors');
 require('dotenv').config();
 require("./src/DB");
 
-
-
+const Token = require("./src/models/Token"); // Ensure this path is correct
+const User = require("./src/models/User");   // Ensure this path is correct
+const Client = require("./src/models/Client")
 const app = express();
 const path = require("path");
 app.use(cors());
 app.use(express.json());
-
+// Set EJS as the template engine
+app.set("view engine", "ejs");
 
 const PORT = process.env.PORT || 5000;
 
@@ -19,6 +21,79 @@ app.listen(PORT, () => {
 
 app.get("/", (req, res) => {
     res.send("hello Itamar");
+});
+
+// Route to render the form dynamically
+app.get("/form/:token", async (req, res) => {
+    const { token } = req.params;
+
+    try {
+        // Validate the token and get the associated adminId
+        const tokenEntry = await Token.findOne({ token });
+        if (!tokenEntry) {
+            return res.status(404).send("Invalid or expired form link.");
+        }
+
+        const adminId = tokenEntry.adminId;
+
+        // Fetch the therapist (admin) details
+        const therapist = await User.findById(adminId);
+        if (!therapist) {
+            return res.status(404).send("Therapist not found.");
+        }
+
+        // Pass therapist data and token to the EJS template
+        res.render("form", {
+            therapist: {
+                logo: therapist.logo,
+                name: therapist.name,
+                email: therapist.email,
+                phone: therapist.phone,
+                specialization: therapist.specialization,
+                experience: therapist.experience,
+                clinicName: therapist.clinicName,
+                clinicAddress: therapist.clinicAddress,
+                welcomeMessage: therapist.welcomeMessage,
+                thankYouMessage: therapist.thankYouMessage,
+
+            },
+            token,
+        });
+    } catch (error) {
+        console.error("Error rendering form:", error);
+        res.status(500).send("Server error.");
+    }
+});
+
+app.post("/submit-form/:token", async (req, res) => {
+    const { token } = req.params;
+    const { name, lastName, birthday, gender, idNumber, description, parents, insuranceInfo } = req.body;
+
+    try {
+        // Optionally validate the token and retrieve the associated adminId
+        const tokenEntry = await Token.findOne({ token });
+        if (!tokenEntry) {
+            return res.status(404).json({ message: "Invalid or expired token." });
+        }
+
+        const newClient = new Client({
+            name,
+            lastName,
+            birthday,
+            gender,
+            idNumber,
+            description,
+            parents,
+            insuranceInfo,
+            adminId: tokenEntry.adminId, // Associated admin ID from the token
+        });
+
+        await newClient.save();
+        return res.status(201).json({ message: "Client information saved successfully.", client: newClient });
+    } catch (error) {
+        console.error("Error saving client:", error);
+        return res.status(500).json({ message: "Error submitting form.", error });
+    }
 });
 
 app.use("/api/auth", require("./src/Routes/auth"));

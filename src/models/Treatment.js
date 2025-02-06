@@ -43,7 +43,7 @@ const TreatmentSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: ""
+        default: "PENDING"
     },
     /*  paymentStatus: {
          type: String,

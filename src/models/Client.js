@@ -16,6 +16,14 @@ const ClientSchema = new mongoose.Schema({
     insuranceInfo: String,
     clientPrice: { type: Number, default: 0, },
     numberOfMeetings: { type: Number, default: 0 },
+    files: [{
+        format: { type: String, required: true },
+        resource_type: { type: String, required: true },
+        created_at: { type: String, required: true },
+        bytes: { type: Number, required: true },
+        url: { type: String, required: true },
+        public_id: { type: String, required: true },
+    }],
     adminId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     createdAt: {
         type: String,

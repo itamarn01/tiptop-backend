@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" id="html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Information Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #a8c8e0, #f0f4f8);
+            /* Updated background */
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            /* Updated button color */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            /* Updated hover color */
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .profile-details {
+            font-size: 18px;
+        }
+
+        .welcome-message {
+            /* background: white; */
+            padding-bottom: 40px;
+            /* border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+             max-width: 600px;
+            margin: auto;  */
+        }
+
+        .welcome-message p {
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+            /* text-align: center; */
+        }
+
+        .language-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .language-buttons button {
+            margin: 0 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        [dir="rtl"] {
+            direction: rtl;
+        }
+
+        [dir="rtl"] label,
+        [dir="rtl"] input,
+        [dir="rtl"] textarea,
+        [dir="rtl"] select {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="language-buttons">
+        <button onclick="setLanguage('en')">🇺🇸 English</button>
+        <button onclick="setLanguage('he')">🇮🇱 עברית</button>
+    </div>
+    <!-- <script>
+        function setLanguage(lang) {
+            const htmlElement = document.getElementById('html');
+            if (lang === 'he') {
+                htmlElement.setAttribute('lang', 'he');
+                htmlElement.setAttribute('dir', 'rtl');
+                document.querySelector('h1').textContent = 'מילוי מידע על המטופל'; // Update form title
+                document.querySelector('label[for="name"]').textContent = 'שם המטופל: *'; // Update patient name label
+                document.querySelector('label[for="lastName"]').textContent = 'שם משפחה של המטופל: *'; // Update last name label
+                document.querySelector('label[for="birthday"]').textContent = 'תאריך לידה של המטופל: *'; // Update birthday label
+                document.querySelector('label[for="patientGender"]').textContent = 'מין המטופל:'; // Update gender label
+                document.querySelector('label[for="idNumber"]').textContent = 'מספר תעודת זהות: *'; // Update ID number label
+                document.querySelector('label[for="description"]').textContent = 'תיאור הילד ודאגות עיקריות:'; // Update description label
+                document.querySelector('label[for="parentsInfo"]').textContent = 'שם ההורה: *'; // Update parent name label
+                document.querySelector('label[for="parents[0][parentName]"]').textContent = 'שם ההורה: *'; // Update parent name label
+                document.querySelector('label[for="genderSelect"]').textContent = 'מגדר:';
+document.querySelector('label[for="insuranceSelect"]').textContent = 'קופ"ח:';
+document.querySelectorAll('#insuranceSelect option').forEach(option => {
+    if (option.value === "Male") option.textContent = "זכר";
+    if (option.value === "Female") option.textContent = "נקבה";
+});
+
+               
+document.querySelector('label[for="phone"]').textContent = 'טלפון של ההורה: *'; // Correct phone label
+document.querySelector('label[for="email"]').textContent = 'אימייל של ההורה:'; // Correct email label
+
+document.querySelector('button[type="submit"]').textContent = 'שלח'; // Correct submit button
+
+                document.querySelector('button[type="text"]').textContent = 'אחר'; //
+                document.querySelectorAll('option').forEach(option => {
+                    if (option.textContent === 'Male') {
+                        option.textContent = 'זכר';
+                    } else if (option.textContent === 'Female') {
+                        option.textContent = 'נקבה';
+                    }
+                });
+                // Update text content to Hebrew here
+            } else {
+                htmlElement.setAttribute('lang', 'en');
+                htmlElement.setAttribute('dir', 'ltr');
+                // Update text content to English here
+            }
+        }
+    </script> -->
+    <script>
+        const translations = {
+            en: {
+                formTitle: "Fill Patient Information",
+                nameLabel: "Patient Name: *",
+                namePlaceholder: "Enter patient name",
+                lastNameLabel: "Patient Last Name: *",
+                lastNamePlaceholder: "Enter patient last name",
+                birthdayLabel: "Patient Birthday: *",
+                birthdayPlaceholder: "Select birthday",
+                genderLabel: "Patient Gender:",
+                idNumberLabel: "ID Number: *",
+                idNumberPlaceholder: "Enter ID number",
+                descriptionLabel: "Description and Primary Concerns:",
+                descriptionPlaceholder: "Describe concerns",
+                phoneLabel: "Phone: *",
+                phonePlaceholder: "Enter phone number",
+                emailLabel: "Email:",
+                emailPlaceholder: "Enter email address",
+                insuranceInfoLabel: "Insurance:",
+                insurancePlaceholder: "Enter insurance info",
+                parentNameLabel: "Parent Name:",
+                parentNamePlaceholder: "Enter parent name",
+                parentGenderLabel: "Relation to Patient:",
+                parentGenderPlaceholder: "Enter relation to patient",
+                submitButton: "Submit",
+                Male: "Male",
+                Female: "Female",
+                otherInsurance: "Other",
+            },
+            he: {
+                formTitle: "מילוי מידע על המטופל",
+                nameLabel: "שם המטופל: *",
+                namePlaceholder: "הכנס שם מטופל",
+                lastNameLabel: "שם משפחה של המטופל: *",
+                lastNamePlaceholder: "הכנס שם משפחה",
+                birthdayLabel: "תאריך לידה של המטופל: *",
+                birthdayPlaceholder: "בחר תאריך לידה",
+                genderLabel: "מין המטופל:",
+                idNumberLabel: "מספר תעודת זהות: *",
+                idNumberPlaceholder: "הכנס מספר תעודת זהות",
+                descriptionLabel: "תיאור הילד/ה ודאגות עיקריות:",
+                descriptionPlaceholder: "תאר את הדאגות",
+                phoneLabel: "טלפון של ההורה: *",
+                phonePlaceholder: "הכנס מספר טלפון",
+                email: "אימייל:",
+                clinicName:"שם הקליניקה:",
+                address:"כתובת:",
+
+                emailLabel: "אימייל של ההורה:",
+                emailPlaceholder: "הכנס כתובת אימייל",
+                insuranceInfoLabel: "קופ'ח:",
+                insurancePlaceholder: "הכנס מידע על הביטוח",
+                parentNameLabel: "שם ההורה:",
+                parentNamePlaceholder: "הכנס שם הורה",
+                parentGenderLabel: " מין ההורה:",
+                parentGenderPlaceholder: "הכנס קרבה למטופל",
+                submitButton: "שלח",
+                bdika: "בדיקה",
+                Male: "זכר",
+                Female: "נקבה",
+                otherInsurance: "אחר",
+            },
+        };
+
+        function setLanguage(lang) {
+            const htmlElement = document.getElementById("html");
+            const translation = translations[lang];
+
+            htmlElement.setAttribute("lang", lang);
+            htmlElement.setAttribute("dir", lang === "he" ? "rtl" : "ltr");
+
+            // Update labels and placeholders
+            document.getElementById("form-title").textContent = translation.formTitle;
+            document.getElementById("name-label").textContent = translation.nameLabel;
+            document.getElementById("name3").textContent = translation.parentGenderLabel;
+            document.getElementById("name").setAttribute("placeholder", translation.namePlaceholder);
+            document.getElementById("name2").setAttribute("placeholder", translation.parentNamePlaceholder);
+
+            document.getElementById("lastName-label").textContent = translation.lastNameLabel;
+            document.getElementById("lastName").setAttribute("placeholder", translation.lastNamePlaceholder);
+            document.getElementById("birthday-label").textContent = translation.birthdayLabel;
+            document.getElementById("birthday").setAttribute("placeholder", translation.birthdayPlaceholder);
+            document.getElementById("gender-label").textContent = translation.genderLabel;
+            document.getElementById("idNumber-label").textContent = translation.idNumberLabel;
+            document.getElementById("idNumber").setAttribute("placeholder", translation.idNumberPlaceholder);
+            document.getElementById("description-label").textContent = translation.descriptionLabel;
+            document.getElementById("description").setAttribute("placeholder", translation.descriptionPlaceholder);
+
+            document.getElementById("description2").textContent = translation.parentNameLabel;
+
+            document.getElementById("phone-label").textContent = translation.phoneLabel;
+            document.getElementById("phone").setAttribute("placeholder", translation.phonePlaceholder);
+            document.getElementById("email-label").textContent = translation.emailLabel;
+            document.getElementById("email-label-text").textContent = translation.email;
+            document.getElementById("email").setAttribute("placeholder", translation.emailPlaceholder);
+            document.getElementById("insuranceInfo-label").textContent = translation.insuranceInfoLabel;
+            document.getElementById("insurance").setAttribute("placeholder", translation.insurancePlaceholder);
+            document.getElementById("parentname-label").textContent = translation.parentNameLabel;
+            document.getElementById("parentgender-label").textContent = translation.parentGenderLabel;
+            document.getElementById("otherinsurance").textContent = translation.otherInsurance;
+            document.getElementById("description3").setAttribute("placeholder", translation.parentNamePlaceholder);
+            document.getElementById("parentgender").setAttribute("placeholder", translation.parentGenderPlaceholder);
+            document.querySelectorAll("#genderSelect option").forEach(option => {
+        if (option.value === "Male") option.textContent = translation.Male;
+        if (option.value === "Female") option.textContent = translation.Female;
+    });
+
+    document.querySelector('button[type="submit"]').textContent = translation.submitButton;
+        }
+
+        // Default language
+        setLanguage("en");
+    </script>
+    <div class="profile">
+        <% if (therapist.logo) { %>
+            <img src="<%= therapist.logo  %>" />
+            <% } %>
+                <div class="profile-details">
+                    <h2 style="margin: 0; font-size: 24px; color: #5cb85c;">
+                        <%= therapist.name %>
+                    </h2>
+                    <p style="margin: 5px 0; font-size: 16px; color: #666;"><strong id="email-label-text"></strong>
+                        <%= therapist.email %>
+                    </p>
+                    <% if (therapist.phone) { %>
+                        <p style="margin: 5px 0; font-size: 16px; color: #666;"><strong></strong>
+                            <%= therapist.phone %>
+                        </p>
+                        <% } %>
+                            <% if (therapist.specialization) { %>
+                                <p style="margin: 5px 0; font-size: 16px; color: #666;"><strong></strong>
+                                    <%= therapist.specialization %>
+                                </p>
+                                <% } %>
+                                    <% if (therapist.experience) { %>
+                                        <p style="margin: 5px 0; font-size: 16px; color: #666;">
+                                            <strong></strong>
+                                            <%= therapist.experience %> years
+                                        </p>
+                                        <% } %>
+                                            <% if (therapist.clinicName) { %>
+                                                <p style="margin: 5px 0; font-size: 16px; color: #666;"><strong>Clinic
+                                                        Name:</strong>
+                                                    <%= therapist.clinicName %>
+                                                </p>
+                                                <% } %>
+                                                    <% if (therapist.clinicAddress) { %>
+                                                        <p style="margin: 5px 0; font-size: 16px; color: #666;">
+                                                            <strong>Clinic Address:</strong>
+                                                            <%= therapist.clinicAddress %>
+                                                        </p>
+                                                        <% } %>
+                </div>
+    </div>
+    <!-- <div class="welcome-message">
+        
+        <p><%= therapist.welcomeMessage %></p>
+    </div> -->
+    <h1 id="form-title">Fill Patient Information</h1>
+    <form id="clientForm">
+        <div class="welcome-message">
+
+            <p>
+                <%= therapist.welcomeMessage %>
+            </p>
+        </div>
+        <input type="hidden" name="token" value="<%= token %>">
+        <label for="name" id="name-label">Patient Name: *</label>
+        <input type="text" id="name" required placeholder="Enter patient name" />
+        <label for="lastName" id="lastName-label">Patient Last Name: <span style="color: red;">*</span> </label>
+        <input type="text" id="lastName" required placeholder="Enter patient last name" />
+        <label for="birthday" id="birthday-label">Patient Birthday: <span style="color: red;">*</span> </label>
+        <input type="date" id="birthday" required placeholder="Select birthday" />
+        <label for="patientGender" id="gender-label">Patient Gender: </label>
+        <select id="genderSelect">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+
+        <label for="idNumber" id="idNumber-label">ID Number: <span style="color: red;">*</span> </label>
+        <input type="text" id="idNumber" required placeholder="Enter ID number" />
+
+        <label for="description" id="description-label">Description and Primary concerns: </label>
+        <div>
+            <textarea id="description" placeholder="Describe concerns"></textarea>
+        </div>
+
+        
+        <label id="description2">Parent Name: </label>
+        <input type="text" id="name2" placeholder="Enter parent name">
+        <label for="gender" id="name3">Gender: </label>
+        <select name="parents[0][gender]">
+            <option value="Male" id="male-option">Male</option>
+            <option value="Female" id="female-option">Female</option>
+        </select>
+
+        <label for="phone" id="phone-label">Phone:<span style="color: red;">*</span> </label>
+        <input type="text" id="phone" required placeholder="Enter phone number" />
+        <label for="email" id="email-label">Email: </label>
+        <input type="email" id="email" placeholder="Enter email address" />
+        <label for="insuranceInfo" id="insuranceInfo-label">Insurance Info: </label>
+        <select name="insuranceInfo" id="insuranceSelect" onchange="toggleOtherInput()">
+            <option value="לאומית">לאומית</option>
+            <option value="מכבי">מכבי</option>
+            <option value="מאוחדת">מאוחדת</option>
+            <option value="כללית">כללית</option>
+            <option value="פרטי">פרטי</option>
+            <option value="other">Other</option>
+        </select>
+        <input type="text" name="otherInsurance" id="otherinsurance" placeholder="Please specify"
+            style="display:none;" />
+
+
+        <script>
+            function toggleOtherInput() {
+                const select = document.getElementById('insuranceSelect');
+                const otherInput = document.getElementById('otherInsurance');
+                if (select.value === 'other') {
+                    otherInput.style.display = 'block';
+                } else {
+                    otherInput.style.display = 'none';
+                }
+            }
+        </script>
+        <button type="submit" id="submit-button">Submit</button>
+    </form>
+
+    <div id="thankYouMessage" style="display:none; text-align:center;">
+        <h2>Thank You for Submitting!</h2>
+        <img src="path/to/cool-icon.png" alt="Thank You Icon" style="width:50px; height:50px;" />
+        <p>Your submission has been received.</p>
+    </div>
+    <script>
+        document.getElementById("clientForm").addEventListener("submit", async function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this); // Collect form data
+            const token = "<%= token %>"; // Dynamically insert token from EJS
+
+            try {
+                const response = await fetch(`/submit-form/${token}`, {
+                    method: "POST",
+                    body: JSON.stringify(Object.fromEntries(formData)),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to submit the form.");
+                }
+
+                const result = await response.json();
+                // Hide the form and show the thank you message
+                document.getElementById("clientForm").style.display = 'none';
+                document.getElementById("thankYouMessage").style.display = 'block';
+                // alert("Form submitted successfully! " + result.message);
+                // Optionally reset the form or redirect the user
+            } catch (error) {
+                console.error("Error submitting form:", error);
+                alert("Error submitting the form. Please try again.");
+            }
+        });
+    </script>
+</body>
+
+</html>
