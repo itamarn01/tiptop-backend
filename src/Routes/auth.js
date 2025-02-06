@@ -20,7 +20,7 @@ router.post('/login', async (req, res) => {
         }
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-        res.json({ token, user: { id: user._id, email: user.email, name: user.name } });
+        res.json({ token, user/* : { id: user._id, email: user.email, name: user.name }  */ });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
         user = new User({ email, password, name, authProvider: 'email', package: 'free' });
         await user.save();
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
         // Convert user to a plain object and remove the password field
         const userObj = user.toObject();
@@ -82,7 +82,7 @@ router.post('/auth', async (req, res) => {
             console.log("user:", user)
 
             // Generate JWT
-            const jwtToken = jwt.sign({ userId: user._id }, 'secret-tiptop', { expiresIn: '1d' });
+            const jwtToken = jwt.sign({ userId: user._id }, 'secret-tiptop', { expiresIn: '30d' });
 
             res.json({ token: jwtToken, user });
         } else {
@@ -91,6 +91,46 @@ router.post('/auth', async (req, res) => {
         }
     } catch (error) {
         console.log("error creat new apple user:", error)
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+router.post('/google-auth', async (req, res) => {
+    try {
+
+        const { googleUser } = req.body;
+        console.log("googleuser:", googleUser)
+
+
+        if (googleUser) {
+
+            let user = await User.findOne({ /* email: verifiedToken.decodedToken.email */googleId: googleUser.id });
+
+            if (!user) {
+                console.log("new user start create...")
+
+                // Create new user if not exists
+                user = new User({
+                    email: googleUser.email,
+                    name: googleUser.givenName,
+                    authProvider: "google",
+                    googleId: googleUser.id,
+                    profileImage: googleUser.photo
+                });
+                await user.save();
+            }
+            console.log("user:", user)
+
+            // Generate JWT
+            const jwtToken = jwt.sign({ userId: user._id }, 'secret-tiptop', { expiresIn: '30d' });
+
+            res.json({ token: jwtToken, user });
+        } else {
+
+            res.status(401).json({ error: 'Invalid token' });
+        }
+    } catch (error) {
+        console.log("error create new google user:", error)
         res.status(500).json({ error: 'Server error' });
     }
 });
@@ -300,6 +340,156 @@ router.post('/verify-code', async (req, res) => {
     }
 });
 
+router.post('/verify-new-email', authMiddleware, async (req, res) => {
+    try {
+        const { newEmail } = req.body;
+        console.log("new Email:", newEmail)
+        // Check if email is already in use
+        const existingUser = await User.findOne({ email: newEmail });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already in use' });
+        }
+
+        // Generate verification code
+        const verificationCode = generateVerificationCode();
+
+        // Save token to database
+        await ResetToken.findOneAndDelete({ userId: req.userId }); // Remove any existing token
+        await ResetToken.create({
+            userId: req.userId,
+            token: verificationCode,
+            email: newEmail // Store the new email with the token
+        });
+
+        // Configure email transporter
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            service: 'gmail',
+            port: 587,
+            secure: 'true',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
+
+        // Email content
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: newEmail,
+            subject: 'Email Change Verification Code',
+            text: `Your verification code is: ${verificationCode}\nThis code will expire in 1 hour.`
+        };
+
+        // Send email
+        await transporter.sendMail(mailOptions);
+
+        res.json({ message: 'Verification code sent to new email' });
+    } catch (error) {
+        console.error('Error in email verification:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Update email after verification
+router.post('/update-email', authMiddleware, async (req, res) => {
+    try {
+        const { code } = req.body;
+
+        // Find and verify token
+        const resetToken = await ResetToken.findOne({
+            userId: req.userId,
+            token: code
+        });
+
+        if (!resetToken) {
+            return res.status(400).json({ message: 'Invalid or expired verification code' });
+        }
+
+        // Update email
+        await User.findByIdAndUpdate(req.userId, { email: resetToken.email });
+
+        // Delete used token
+        await ResetToken.deleteOne({ _id: resetToken._id });
+
+        res.json({ message: 'Email updated successfully' });
+    } catch (error) {
+        console.error('Error in email update:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Update user name
+router.put('/update-name', authMiddleware, async (req, res) => {
+    try {
+        const { newName } = req.body;
+
+        // Validate new name
+        if (!newName || typeof newName !== 'string') {
+            return res.status(400).json({ message: 'Invalid name' });
+        }
+
+        // Update user's name
+        await User.findByIdAndUpdate(req.userId, { name: newName });
+
+        res.json({ message: 'Name updated successfully' });
+    } catch (error) {
+        console.error('Error in name update:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Update user phone
+router.put('/update-phone', authMiddleware, async (req, res) => {
+    try {
+        const { newPhone } = req.body;
+
+        // Validate new phone
+        const phoneRegex = /^(?:\d{10}|\d{9}|)$/; // Example regex for 10-digit phone numbers or empty string
+        if (!newPhone || !phoneRegex.test(newPhone)) {
+            return res.status(400).json({ message: 'Invalid phone number' });
+        }
+
+        // Update user's phone
+        await User.findByIdAndUpdate(req.userId, { phone: newPhone });
+
+        res.json({ message: 'Phone number updated successfully' });
+    } catch (error) {
+        console.error('Error in phone update:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Update user form fields
+router.put('/update-form', authMiddleware, async (req, res) => {
+    try {
+        const { phone, specialization, experience, clinicName, clinicAddress, welcomeMessage, thankYouMessage } = req.body;
+
+        // Validate new phone if provided
+        const phoneRegex = /^(?:\d{10}|\d{9}|)$/; // Example regex for 10-digit phone numbers or empty string
+        if (phone && !phoneRegex.test(phone)) {
+            return res.status(400).json({ message: 'Invalid phone number' });
+        }
+
+        // Prepare update object
+        const updateFields = {};
+        updateFields.phone = phone;
+        updateFields.specialization = specialization;
+        updateFields.experience = experience;
+        updateFields.clinicName = clinicName;
+        updateFields.clinicAddress = clinicAddress;
+        updateFields.welcomeMessage = welcomeMessage;
+        updateFields.thankYouMessage = thankYouMessage;
+
+        // Update user's fields
+        await User.findByIdAndUpdate(req.userId, updateFields);
+
+        res.json({ message: 'User information updated successfully' });
+    } catch (error) {
+        console.error('Error in user update:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 
 module.exports = router;

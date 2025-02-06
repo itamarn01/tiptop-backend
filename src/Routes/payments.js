@@ -78,13 +78,13 @@ router.delete('/:paymentId', async (req, res) => {
 // Get all payments for a specific client
 router.get('/client/:clientId', async (req, res) => {
     const { clientId } = req.params;
-    console.log("clientId:", req.params)
+    // console.log("clientId:", req.params)
     try {
         const payments = await Payment.find({ clientId });
 
-        if (payments.length === 0) {
-            return res.status(404).json({ message: 'No payments found for this client' });
-        }
+        /*  if (payments.length === 0) {
+             return res.status(404).json({ message: 'No payments found for this client' });
+         } */
 
         res.json(payments);
     } catch (error) {

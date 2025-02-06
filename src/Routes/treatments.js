@@ -287,7 +287,14 @@ router.put('/treatments/:id', async (req, res) => {
     try {
         console.log("id: ", req.params.id)
         console.log("req body:", req.body)
-        const updatedTreatment = await Treatment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+        // Check if treatmentSummary is not empty and set status to "COMPLETED"
+        const updateData = { ...req.body };
+        if (req.body.treatmentSummary) {
+            updateData.status = "COMPLETED";
+        }
+
+        const updatedTreatment = await Treatment.findByIdAndUpdate(req.params.id, updateData, { new: true });
         res.status(200).json(updatedTreatment);
     } catch (error) {
         res.status(500).json({ message: 'Error updating treatment', error });
