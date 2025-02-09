@@ -7,7 +7,7 @@ const router = express.Router();
 require('dotenv').config();
 const ResetToken = require('../models/resetToken');
 const nodemailer = require('nodemailer');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 
 router.post('/login', async (req, res) => {
