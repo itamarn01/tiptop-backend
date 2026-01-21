@@ -67,10 +67,15 @@ app.get("/form/:token", async (req, res) => {
 
 app.post("/submit-form/:token", async (req, res) => {
     const { token } = req.params;
-    const { name, lastName, birthday, gender, idNumber, description, parents, insuranceInfo } = req.body;
+    
+    // נשלוף את השדות הבודדים מה-body (כולל אלו של ההורה)
+    const { 
+        name, lastName, birthday, gender, idNumber, 
+        description, insuranceInfo,
+        parentName, parentGender, phone, email // שדות ההורה מהטופס
+    } = req.body;
 
     try {
-        // Optionally validate the token and retrieve the associated adminId
         const tokenEntry = await Token.findOne({ token });
         if (!tokenEntry) {
             return res.status(404).json({ message: "Invalid or expired token." });
@@ -83,9 +88,15 @@ app.post("/submit-form/:token", async (req, res) => {
             gender,
             idNumber,
             description,
-            parents,
             insuranceInfo,
-            adminId: tokenEntry.adminId, // Associated admin ID from the token
+            adminId: tokenEntry.adminId,
+            // כאן אנחנו יוצרים את המערך שה-DB מצפה לו
+            parents: [{
+                parentName: parentName,
+                gender: parentGender,
+                phone: phone,
+                email: email
+            }]
         });
 
         await newClient.save();
