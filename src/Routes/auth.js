@@ -8,6 +8,8 @@ require('dotenv').config();
 const ResetToken = require('../models/resetToken');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
+const EmailVerification = require('../models/EmailVerification');
+
 
 
 router.post('/login', async (req, res) => {
@@ -29,7 +31,18 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
     try {
-        const { email, password, name } = req.body;
+        const { email, password, name, code } = req.body;
+
+        if (!code) {
+            return res.status(400).json({ message: 'Verification code is required' });
+        }
+
+        // Verify code
+        const verification = await EmailVerification.findOne({ email, code });
+        if (!verification) {
+            return res.status(400).json({ message: 'Invalid or expired verification code' });
+        }
+
         let user = await User.findOne({ email });
 
         if (user) {
@@ -38,6 +51,9 @@ router.post('/register', async (req, res) => {
 
         user = new User({ email, password, name, authProvider: 'email', package: 'free' });
         await user.save();
+
+        // Delete verification code after successful registration
+        await EmailVerification.deleteOne({ _id: verification._id });
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
@@ -51,6 +67,57 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+router.post('/send-registration-code', async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        // Generate verification code
+        const verificationCode = generateVerificationCode();
+
+        // Save or update verification code
+        await EmailVerification.findOneAndUpdate(
+            { email },
+            { code: verificationCode, createdAt: new Date() },
+            { upsert: true, new: true }
+        );
+
+        // Configure email transporter
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            service: 'gmail',
+            port: 587,
+            secure: 'true',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
+
+        // Email content
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Verification Code for TipTop Registration',
+            text: `Your verification code is: ${verificationCode}\nThis code will expire in 10 minutes.`
+        };
+
+        // Send email
+        await transporter.sendMail(mailOptions);
+
+        res.json({ message: 'Verification code sent to email' });
+    } catch (error) {
+        console.error('Error sending registration code:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 
 router.post('/auth', async (req, res) => {
     try {

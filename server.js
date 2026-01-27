@@ -123,12 +123,12 @@ app.use("/api/payments", require("./src/Routes/Payments"));  */
 
 
 
-app.post("/checkUpdate", (req, res) => {
+app.post("/api/checkUpdate", (req, res) => {
     // Get the current version of your app from the request body
     const currentVersion = req.body.currentVersion;
 
     // Compare the current version with the latest version
-    const latestVersion = "1.1.0"; // Replace with the latest version of your app
+    const latestVersion = "1.0.0"; // Replace with the latest version of your app
     const updateStatus = getUpdateStatus(currentVersion, latestVersion);
 
     // Prepare the response
@@ -143,19 +143,21 @@ app.post("/checkUpdate", (req, res) => {
 });
 
 // Function to determine the update status
+// Function to determine the update status
 function getUpdateStatus(currentVersion, latestVersion) {
-    const currentVersionArray = currentVersion.split(".").map(Number);
-    const latestVersionArray = latestVersion.split(".").map(Number);
+    const current = currentVersion.split(".").map(Number);
+    const latest = latestVersion.split(".").map(Number);
 
-    // Compare each segment of the version number
-    for (let i = 0; i < currentVersionArray.length - 1; i++) {
-        if (currentVersionArray[i] < latestVersionArray[i]) {
-            return "mustUpdate"; // Major or minor version update
-        }
-    }
-    if (currentVersionArray[2] < latestVersionArray[2]) {
-        return "recommendToUpdate";
-    }
+    // Major version check
+    if (current[0] < latest[0]) return "mustUpdate";
+    if (current[0] > latest[0]) return "noUpdate";
 
-    return "noUpdate"; // Versions are identical
+    // Minor version check
+    if (current[1] < latest[1]) return "recommendToUpdate";
+    if (current[1] > latest[1]) return "noUpdate";
+
+    // Patch version check
+    if (current[2] < latest[2]) return "updateAvailable";
+
+    return "noUpdate"; // Versions are identical or current is newer
 }
