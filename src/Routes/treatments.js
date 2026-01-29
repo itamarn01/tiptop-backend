@@ -239,7 +239,7 @@ router.post('/:clientId', async (req, res) => {
         console.log("numberOfTreatments:", numberOfTreatments, "number of meetings:", numberOfMeetings)
         let treatments = [];
 
-        if (numberOfTreatments >= numberOfMeetings - 1) {
+        if (repeatStatus !== 'weekly' || numberOfTreatments >= numberOfMeetings - 1) {
             const newTreatment = new Treatment({
                 userId: client.adminId,
                 clientId,
@@ -257,7 +257,7 @@ router.post('/:clientId', async (req, res) => {
 
         for (let i = numberOfTreatments; i < numberOfMeetings; i++) {
             const currentTreatmentDate = new Date(treatmentDate); // Create a new Date object for each iteration
-            currentTreatmentDate.setDate(currentTreatmentDate.getDate() + (i * 7)); // Increment by weeks
+            currentTreatmentDate.setDate(currentTreatmentDate.getDate() + ((i - numberOfTreatments) * 7)); // Increment by weeks starting from 0 for the first new treatment
 
             const newTreatment = new Treatment({
                 userId: client.adminId,
@@ -272,7 +272,7 @@ router.post('/:clientId', async (req, res) => {
 
             treatments.push(newTreatment);
         }
-        console.log("treaments:", treatments)
+        console.log("treatments:", treatments)
         const savedTreatments = await Treatment.insertMany(treatments);
 
         res.status(201).json(savedTreatments);
