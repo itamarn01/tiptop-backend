@@ -23,6 +23,10 @@ app.get("/", (req, res) => {
     res.send("hello Itamar");
 });
 
+app.get("/privacy-policy", (req, res) => {
+    res.render("privacy-policy");
+});
+
 // Route to render the form dynamically
 app.get("/form/:token", async (req, res) => {
     const { token } = req.params;
