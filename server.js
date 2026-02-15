@@ -10,6 +10,7 @@ const app = express();
 const path = require("path");
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 // Set EJS as the template engine
 app.set("view engine", "ejs");
 
@@ -20,7 +21,7 @@ app.listen(PORT, () => {
 });
 
 app.get("/", (req, res) => {
-    res.send("hello Itamar");
+    res.render("landing");
 });
 
 app.get("/privacy-policy", (req, res) => {
