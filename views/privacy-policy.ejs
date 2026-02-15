@@ -97,62 +97,115 @@
                 font-size: 2rem;
             }
         }
+
+        /* RTL Support */
+        body.rtl {
+            direction: rtl;
+            text-align: right;
+        }
+
+        body.rtl ul {
+            padding-left: 0;
+            padding-right: 20px;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        body.rtl .lang-switcher {
+            right: auto;
+            left: 20px;
+        }
+
+        .lang-btn {
+            background: white;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
     </style>
 </head>
 
 <body>
+    <div class="lang-switcher">
+        <button class="lang-btn" id="lang-en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" id="lang-he" onclick="setLanguage('he')">עב</button>
+    </div>
     <div class="container">
-        <h1>Privacy Policy</h1>
-        <p><strong>Last updated: February 10, 2026</strong></p>
+        <h1 data-i18n="title">Privacy Policy</h1>
+        <p><strong data-i18n="last-updated">Last updated: February 10, 2026</strong></p>
 
-        <p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your
+        <p data-i18n="intro-1">This Privacy Policy describes Our policies and procedures on the collection, use and
+            disclosure of Your
             information when You use the Service and tells You about Your privacy rights and how the law protects You.
         </p>
 
-        <p>We use Your Personal Data to provide and improve the Service. By using the Service, You agree to the
-            collection and use of information in accordance with this Privacy Policy. This Privacy Policy has been
-            created with the help of the TermsFeed Privacy Policy Generator.</p>
+        <p data-i18n="intro-2">We use Your Personal Data to provide and improve the Service. By using the Service, You
+            agree to the
+            collection and use of information in accordance with this Privacy Policy.</p>
 
-        <h2>Interpretation and Definitions</h2>
-        <h3>Interpretation</h3>
-        <p>The words whose initial letters are capitalized have meanings defined under the following conditions. The
+        <h2 data-i18n="interpretation-title">Interpretation and Definitions</h2>
+        <h3 data-i18n="interpretation-sub">Interpretation</h3>
+        <p data-i18n="interpretation-desc">The words whose initial letters are capitalized have meanings defined under
+            the following conditions. The
             following definitions shall have the same meaning regardless of whether they appear in singular or in
             plural.</p>
 
-        <h3>Definitions</h3>
-        <p>For the purposes of this Privacy Policy:</p>
+        <h3 data-i18n="definitions-sub">Definitions</h3>
+        <p data-i18n="definitions-intro">For the purposes of this Privacy Policy:</p>
         <ul>
-            <li><strong>Account</strong> means a unique account created for You to access our Service or parts of our
+            <li data-i18n="def-account"><strong>Account</strong> means a unique account created for You to access our
+                Service or parts of our
                 Service.</li>
             <li><strong>Affiliate</strong> means an entity that controls, is controlled by, or is under common control
                 with a party, where "control" means ownership of 50% or more of the shares, equity interest or other
                 securities entitled to vote for election of directors or other managing authority.</li>
             <li><strong>Application</strong> refers to TipTop Clinic, the software program provided by the Company.</li>
-            <li><strong>Company</strong> (referred to as either "the Company", "We", "Us" or "Our" in this Privacy
+            <li data-i18n="def-company"><strong>Company</strong> (referred to as either "the Company", "We", "Us" or
+                "Our" in this Privacy
                 Policy) refers to TipTop Clinic.</li>
             <li><strong>Country</strong> refers to: Israel</li>
             <li><strong>Device</strong> means any device that can access the Service such as a computer, a cell phone or
                 a digital tablet.</li>
-            <li><strong>Personal Data</strong> (or "Personal Information") is any information that relates to an
+            <li data-i18n="def-personal"><strong>Personal Data</strong> (or "Personal Information") is any information
+                that relates to an
                 identified or identifiable individual.</li>
             <li>We use "Personal Data" and "Personal Information" interchangeably unless a law uses a specific term.
             </li>
-            <li><strong>Service</strong> refers to the Application.</li>
+            <li data-i18n="def-service"><strong>Service</strong> refers to the Application.</li>
             <li><strong>Service Provider</strong> means any natural or legal person who processes the data on behalf of
                 the Company. It refers to third-party companies or individuals employed by the Company to facilitate the
                 Service, to provide the Service on behalf of the Company, to perform services related to the Service or
                 to assist the Company in analyzing how the Service is used.</li>
             <li><strong>Usage Data</strong> refers to data collected automatically, either generated by the use of the
                 Service or from the Service infrastructure itself (for example, the duration of a page visit).</li>
-            <li><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal
+            <li data-i18n="def-you"><strong>You</strong> means the individual accessing or using the Service, or the
+                company, or other legal
                 entity on behalf of which such individual is accessing or using the Service, as applicable.</li>
         </ul>
 
-        <h2>Collecting and Using Your Personal Data</h2>
-        <h3>Types of Data Collected</h3>
+        <h2 data-i18n="collecting-title">Collecting and Using Your Personal Data</h2>
+        <h3 data-i18n="collecting-types">Types of Data Collected</h3>
 
-        <h4>Personal Data</h4>
-        <p>While using Our Service, We may ask You to provide Us with certain personally identifiable information that
+        <h4 data-i18n="personal-data-sub">Personal Data</h4>
+        <p data-i18n="personal-data-desc">While using Our Service, We may ask You to provide Us with certain personally
+            identifiable information that
             can be used to contact or identify You. Personally identifiable information may include, but is not limited
             to:</p>
         <ul>
@@ -163,8 +216,8 @@
             <li>Usage Data</li>
         </ul>
 
-        <h4>Usage Data</h4>
-        <p>Usage Data is collected automatically when using the Service.</p>
+        <h4 data-i18n="usage-data-sub">Usage Data</h4>
+        <p data-i18n="usage-data-desc">Usage Data is collected automatically when using the Service.</p>
         <p>Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser
             type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time
             spent on those pages, unique device identifiers and other diagnostic data.</p>
@@ -175,217 +228,303 @@
         <p>We may also collect information that Your browser sends whenever You visit Our Service or when You access the
             Service by or through a mobile device.</p>
 
-        <h3>Information Collected while Using the Application</h3>
-        <p>While using Our Application, in order to provide features of Our Application, We may collect, with Your prior
-            permission:</p>
-        <ul>
-            <li>Pictures and other information from your Device's camera and photo library</li>
-        </ul>
-        <p>We use this information to provide features of Our Service, to improve and customize Our Service. The
+        <h3 data-i18n="camera-photo-sub">Information Collected while Using the Application</h3>
+        <p data-i18n="camera-photo-desc">While using Our Application, in order to provide features of Our Application,
+            We may collect, with Your prior
+            permission: Pictures and other information from your Device's camera and photo library</p>
+        <p data-i18n="camera-photo-use">We use this information to provide features of Our Service, to improve and
+            customize Our Service. The
             information may be uploaded to the Company's servers and/or a Service Provider's server or it may be simply
             stored on Your device.</p>
-        <p>You can enable or disable access to this information at any time, through Your Device settings.</p>
+        <p data-i18n="camera-photo-control">You can enable or disable access to this information at any time, through
+            Your Device settings.</p>
 
-        <h2>Use of Your Personal Data</h2>
-        <p>The Company may use Personal Data for the following purposes:</p>
+        <h2 data-i18n="use-title">Use of Your Personal Data</h2>
+        <p data-i18n="use-intro">The Company may use Personal Data for the following purposes:</p>
         <ul>
-            <li><strong>To provide and maintain our Service</strong>, including to monitor the usage of our Service.
-            </li>
-            <li><strong>To manage Your Account:</strong> to manage Your registration as a user of the Service. The
-                Personal Data You provide can give You access to different functionalities of the Service that are
-                available to You as a registered user.</li>
-            <li><strong>For the performance of a contract:</strong> the development, compliance and undertaking of the
-                purchase contract for the products, items or services You have purchased or of any other contract with
-                Us through the Service.</li>
-            <li><strong>To contact You:</strong> To contact You by email, telephone calls, SMS, or other equivalent
-                forms of electronic communication, such as a mobile application's push notifications regarding updates
-                or informative communications related to the functionalities, products or contracted services, including
-                the security updates, when necessary or reasonable for their implementation.</li>
-            <li><strong>To provide You with news, special offers, and general information</strong> about other goods,
-                services and events which We offer that are similar to those that you have already purchased or inquired
-                about unless You have opted not to receive such information.</li>
-            <li><strong>To manage Your requests:</strong> To attend and manage Your requests to Us.</li>
-            <li><strong>For business transfers:</strong> We may use Your Personal Data to evaluate or conduct a merger,
-                divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our
-                assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in
-                which Personal Data held by Us about our Service users is among the assets transferred.</li>
-            <li><strong>For other purposes:</strong> We may use Your information for other purposes, such as data
-                analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to
-                evaluate and improve our Service, products, services, marketing and your experience.</li>
+            <li><strong data-i18n="use-1-title">To provide and maintain our Service</strong><span
+                    data-i18n="use-1-desc">, including to monitor the usage of our Service.</span></li>
+            <li><strong data-i18n="use-2-title">To manage Your Account:</strong><span data-i18n="use-2-desc"> to manage
+                    Your registration as a user of the Service. The Personal Data You provide can give You access to
+                    different functionalities of the Service that are available to You as a registered user.</span></li>
+            <li><strong data-i18n="use-3-title">For the performance of a contract:</strong><span data-i18n="use-3-desc">
+                    the development, compliance and undertaking of the purchase contract for the products, items or
+                    services You have purchased or of any other contract with Us through the Service.</span></li>
+            <li><strong data-i18n="use-4-title">To contact You:</strong><span data-i18n="use-4-desc"> To contact You by
+                    email, telephone calls, SMS, or other equivalent forms of electronic communication.</span></li>
+            <li><strong data-i18n="use-5-title">To provide You with news</strong><span data-i18n="use-5-desc">, special
+                    offers, and general information about other goods, services and events.</span></li>
+            <li><strong data-i18n="use-6-title">To manage Your requests:</strong><span data-i18n="use-6-desc"> To attend
+                    and manage Your requests to Us.</span></li>
         </ul>
 
-        <p>We may share Your Personal Data in the following situations:</p>
+        <p data-i18n="share-intro">We may share Your Personal Data in the following situations:</p>
         <ul>
-            <li><strong>With Service Providers:</strong> We may share Your Personal Data with Service Providers to
-                monitor and analyze the use of our Service, to contact You.</li>
-            <li><strong>For business transfers:</strong> We may share or transfer Your Personal Data in connection with,
-                or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a
-                portion of Our business to another company.</li>
-            <li><strong>With Affiliates:</strong> We may share Your Personal Data with Our affiliates, in which case we
-                will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and
-                any other subsidiaries, joint venture partners or other companies that We control or that are under
-                common control with Us.</li>
-            <li><strong>With business partners:</strong> We may share Your Personal Data with Our business partners to
-                offer You certain products, services or promotions.</li>
-            <li><strong>With other users:</strong> If Our Service offers public areas, when You share Personal Data or
-                otherwise interact in the public areas with other users, such information may be viewed by all users and
-                may be publicly distributed outside.</li>
-            <li><strong>With Your consent:</strong> We may disclose Your Personal Data for any other purpose with Your
-                consent.</li>
+            <li><strong data-i18n="share-1-title">With Service Providers:</strong><span data-i18n="share-1-desc"> We may
+                    share Your Personal Data with Service Providers to monitor and analyze the use of our Service, to
+                    contact You.</span></li>
+            <li><strong data-i18n="share-2-title">For business transfers:</strong><span data-i18n="share-2-desc"> We may
+                    share or transfer Your Personal Data in connection with, or during negotiations of, any merger, sale
+                    of Company assets, financing, or acquisition of all or a portion of Our business to another
+                    company.</span></li>
+            <li><strong data-i18n="share-3-title">With Affiliates:</strong><span data-i18n="share-3-desc"> We may share
+                    Your Personal Data with Our affiliates, in which case we will require those affiliates to honor this
+                    Privacy Policy.</span></li>
+            <li><strong data-i18n="share-4-title">With business partners:</strong><span data-i18n="share-4-desc"> We may
+                    share Your Personal Data with Our business partners to offer You certain products, services or
+                    promotions.</span></li>
         </ul>
 
-        <h2>Retention of Your Personal Data</h2>
-        <p>The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this
+        <h2 data-i18n="retention-title">Retention of Your Personal Data</h2>
+        <p data-i18n="retention-desc">The Company will retain Your Personal Data only for as long as is necessary for
+            the purposes set out in this
             Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal
-            obligations (for example, if We are required to retain Your data to comply with applicable laws), resolve
-            disputes, and enforce our legal agreements and policies.</p>
-        <p>Where possible, We apply shorter retention periods and/or reduce identifiability by deleting, aggregating, or
-            anonymizing data. Unless otherwise stated, the retention periods below are maximum periods ("up to") and We
-            may delete or anonymize data sooner when it is no longer needed for the relevant purpose. We apply different
-            retention periods to different categories of Personal Data based on the purpose of processing and legal
-            obligations:</p>
+            obligations, resolve disputes, and enforce our legal agreements and policies.</p>
 
-        <h4>Account Information</h4>
-        <ul>
-            <li><strong>User Accounts:</strong> retained for the duration of your account relationship plus up to 24
-                months after account closure to handle any post-termination issues or resolve disputes.</li>
-        </ul>
+        <h2 data-i18n="transfer-title">Transfer of Your Personal Data</h2>
+        <p data-i18n="transfer-desc">Your information, including Personal Data, is processed at the Company's operating
+            offices and in any other
+            places where the parties involved in the processing are located.</p>
 
-        <h4>Customer Support Data</h4>
-        <ul>
-            <li><strong>Support tickets and correspondence:</strong> up to 24 months from the date of ticket closure to
-                resolve follow-up inquiries, track service quality, and defend against potential legal claims</li>
-            <li><strong>Chat transcripts:</strong> up to 24 months for quality assurance and staff training purposes.
-            </li>
-        </ul>
-
-        <h4>Usage Data</h4>
-        <ul>
-            <li><strong>Application usage statistics:</strong> up to 24 months to understand feature adoption and
-                service improvements.</li>
-            <li><strong>Server logs (IP addresses, access times):</strong> up to 24 months for security monitoring and
-                troubleshooting purposes.</li>
-        </ul>
-        <p>Usage Data is retained in accordance with the retention periods described above, and may be retained longer
-            only where necessary for security, fraud prevention, or legal compliance.</p>
-
-        <p>We may retain Personal Data beyond the periods stated above for different reasons:</p>
-        <ul>
-            <li><strong>Legal obligation:</strong> We are required by law to retain specific data (e.g., financial
-                records for tax authorities).</li>
-            <li><strong>Legal claims:</strong> Data is necessary to establish, exercise, or defend legal claims.</li>
-            <li><strong>Your explicit request:</strong> You ask Us to retain specific information.</li>
-            <li><strong>Technical limitations:</strong> Data exists in backup systems that are scheduled for routine
-                deletion.</li>
-        </ul>
-        <p>You may request information about how long We will retain Your Personal Data by contacting Us.</p>
-        <p>When retention periods expire, We securely delete or anonymize Personal Data according to the following
-            procedures:</p>
-        <ul>
-            <li><strong>Deletion:</strong> Personal Data is removed from Our systems and no longer actively processed.
-            </li>
-            <li><strong>Backup retention:</strong> Residual copies may remain in encrypted backups for a limited period
-                consistent with our backup retention schedule and are not restored except where necessary for security,
-                disaster recovery, or legal compliance.</li>
-            <li><strong>Anonymization:</strong> In some cases, We convert Personal Data into anonymous statistical data
-                that cannot be linked back to You. This anonymized data may be retained indefinitely for research and
-                analytics.</li>
-        </ul>
-
-        <h2>Transfer of Your Personal Data</h2>
-        <p>Your information, including Personal Data, is processed at the Company's operating offices and in any other
-            places where the parties involved in the processing are located. It means that this information may be
-            transferred to — and maintained on — computers located outside of Your state, province, country or other
-            governmental jurisdiction where the data protection laws may differ from those from Your jurisdiction.</p>
-        <p>Where required by applicable law, We will ensure that international transfers of Your Personal Data are
-            subject to appropriate safeguards and supplementary measures where appropriate. The Company will take all
-            steps reasonably necessary to ensure that Your data is treated securely and in accordance with this Privacy
-            Policy and no transfer of Your Personal Data will take place to an organization or a country unless there
-            are adequate controls in place including the security of Your data and other personal information.</p>
-
-        <h2>Delete Your Personal Data</h2>
-        <p>You have the right to delete or request that We assist in deleting the Personal Data that We have collected
+        <h2 data-i18n="delete-title">Delete Your Personal Data</h2>
+        <p data-i18n="delete-desc">You have the right to delete or request that We assist in deleting the Personal Data
+            that We have collected
             about You.</p>
-        <p>Our Service may give You the ability to delete certain information about You from within the Service.</p>
-        <p>You may update, amend, or delete Your information at any time by signing in to Your Account, if you have one,
-            and visiting the account settings section that allows you to manage Your personal information. You may also
-            contact Us to request access to, correct, or delete any Personal Data that You have provided to Us.</p>
-        <p>Please note, however, that We may need to retain certain information when we have a legal obligation or
-            lawful basis to do so.</p>
+        <p data-i18n="delete-app">Our Service may give You the ability to delete certain information about You from
+            within the Service.</p>
+        <p data-i18n="delete-contact">You may also contact Us to request access to, correct, or delete any Personal Data
+            that You have provided to Us.</p>
 
-        <h2>Disclosure of Your Personal Data</h2>
-        <h3>Business Transactions</h3>
-        <p>If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred. We
-            will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy
-            Policy.</p>
+        <h2 data-i18n="disclosure-title">Disclosure of Your Personal Data</h2>
+        <h3 data-i18n="disclosure-biz-title">Business Transactions</h3>
+        <p data-i18n="disclosure-biz-desc">If the Company is involved in a merger, acquisition or asset sale, Your
+            Personal Data may be transferred.</p>
 
-        <h3>Law enforcement</h3>
-        <p>Under certain circumstances, the Company may be required to disclose Your Personal Data if required to do so
-            by law or in response to valid requests by public authorities (e.g. a court or a government agency).</p>
+        <h3 data-i18n="disclosure-law-title">Law enforcement</h3>
+        <p data-i18n="disclosure-law-desc">Under certain circumstances, the Company may be required to disclose Your
+            Personal Data if required to do so by law.</p>
 
-        <h3>Other legal requirements</h3>
-        <p>The Company may disclose Your Personal Data in the good faith belief that such action is necessary to:</p>
+        <h2 data-i18n="ad-title">Advertising</h2>
+        <p data-i18n="ad-desc">We use Service Providers to show advertisements to You to help support and maintain Our
+            Service.</p>
+
+        <h3 data-i18n="admob-title">Google AdMob</h3>
+        <p data-i18n="admob-desc">Google AdMob is an advertising service provided by Google Inc.</p>
+        <p data-i18n="admob-use">Google may use your device's advertising ID and other data to serve personalized ads
+            based on your interests.</p>
+
+        <h2 data-i18n="children-title">Children's Privacy</h2>
+        <p data-i18n="children-desc">Our Service does not address anyone under the age of 16. We do not knowingly
+            collect personally identifiable information from anyone under the age of 16.</p>
+
+        <h2 data-i18n="links-title">Links to Other Websites</h2>
+        <p data-i18n="links-desc">Our Service may contain links to other websites that are not operated by Us. We
+            strongly advise You to review the Privacy Policy of every site You visit.</p>
+
+        <h2 data-i18n="changes-title">Changes to this Privacy Policy</h2>
+        <p data-i18n="changes-desc">We may update Our Privacy Policy from time to time. We will notify You of any
+            changes by posting the new Privacy Policy on this page.</p>
+
+        <h2 data-i18n="contact-title">Contact Us</h2>
+        <p data-i18n="contact-desc">If you have any questions about this Privacy Policy, You can contact us:</p>
         <ul>
-            <li>Comply with a legal obligation</li>
-            <li>Protect and defend the rights or property of the Company</li>
-            <li>Prevent or investigate possible wrongdoing in connection with the Service</li>
-            <li>Protect the personal safety of Users of the Service or the public</li>
-            <li>Protect against legal liability</li>
+            <li data-i18n="contact-email">By email: tiptoptherapyapp@gmail.com</li>
         </ul>
 
-        <h2>Advertising</h2>
-        <p>We use Service Providers to show advertisements to You to help support and maintain Our Service.</p>
-
-        <h3>Google AdMob</h3>
-        <p>Google AdMob is an advertising service provided by Google Inc.</p>
-        <p>We use Google AdMob to display ads in our Application. Google may use your device's advertising ID and other
-            data to serve personalized ads based on your interests. You can opt-out from the Google AdMob service by
-            following the instructions described by Google: <a
-                href="https://support.google.com/ads/answer/2662922?hl=en"
-                target="_blank">https://support.google.com/ads/answer/2662922?hl=en</a></p>
-        <p>For more information on the privacy practices of Google, please visit the Google Privacy & Terms web page: <a
-                href="https://policies.google.com/privacy?hl=en"
-                target="_blank">https://policies.google.com/privacy?hl=en</a></p>
-
-        <h2>Security of Your Personal Data</h2>
-        <p>The security of Your Personal Data is important to Us, but remember that no method of transmission over the
-            Internet, or method of electronic storage is 100% secure. While We strive to use commercially reasonable
-            means to protect Your Personal Data, We cannot guarantee its absolute security.</p>
-
-        <h2>Children's Privacy</h2>
-        <p>Our Service does not address anyone under the age of 16. We do not knowingly collect personally identifiable
-            information from anyone under the age of 16. If You are a parent or guardian and You are aware that Your
-            child has provided Us with Personal Data, please contact Us. If We become aware that We have collected
-            Personal Data from anyone under the age of 16 without verification of parental consent, We take steps to
-            remove that information from Our servers.</p>
-        <p>If We need to rely on consent as a legal basis for processing Your information and Your country requires
-            consent from a parent, We may require Your parent's consent before We collect and use that information.</p>
-
-        <h2>Links to Other Websites</h2>
-        <p>Our Service may contain links to other websites that are not operated by Us. If You click on a third party
-            link, You will be directed to that third party's site. We strongly advise You to review the Privacy Policy
-            of every site You visit.</p>
-        <p>We have no control over and assume no responsibility for the content, privacy policies or practices of any
-            third party sites or services.</p>
-
-        <h2>Changes to this Privacy Policy</h2>
-        <p>We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new
-            Privacy Policy on this page.</p>
-        <p>We will let You know via email and/or a prominent notice on Our Service, prior to the change becoming
-            effective and update the "Last updated" date at the top of this Privacy Policy.</p>
-        <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy
-            are effective when they are posted on this page.</p>
-
-        <h2>Contact Us</h2>
-        <p>If you have any questions about this Privacy Policy, You can contact us:</p>
-        <ul>
-            <li>By email: tiptoptherapyapp@gmail.com</li>
-        </ul>
-
-        <footer>
+        <footer data-i18n="footer">
             &copy; 2026 TipTop. All rights reserved.
         </footer>
     </div>
+
+    <script>
+        const translations = {
+            'en': {
+                'title': 'Privacy Policy',
+                'last-updated': 'Last updated: February 10, 2026',
+                'intro-1': 'This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information.',
+                'intro-2': 'We use Your Personal Data to provide and improve the Service. By using the Service, You agree to the collection and use of information.',
+                'interpretation-title': 'Interpretation and Definitions',
+                'interpretation-sub': 'Interpretation',
+                'interpretation-desc': 'The words whose initial letters are capitalized have meanings defined under the following conditions.',
+                'definitions-sub': 'Definitions',
+                'definitions-intro': 'For the purposes of this Privacy Policy:',
+                'def-account': '<strong>Account</strong> means a unique account created for You.',
+                'def-company': '<strong>Company</strong> refers to TipTop Clinic.',
+                'def-personal': '<strong>Personal Data</strong> is any information that relates to an identified individual.',
+                'def-service': '<strong>Service</strong> refers to the Application.',
+                'def-you': '<strong>You</strong> means the individual accessing or using the Service.',
+                'collecting-title': 'Collecting and Using Your Personal Data',
+                'collecting-types': 'Types of Data Collected',
+                'personal-data-sub': 'Personal Data',
+                'personal-data-desc': 'While using Our Service, We may ask You to provide Us with certain personally identifiable information.',
+                'usage-data-sub': 'Usage Data',
+                'usage-data-desc': 'Usage Data is collected automatically when using the Service.',
+                'camera-photo-sub': 'Information Collected while Using the Application',
+                'camera-photo-desc': 'We may collect Pictures and other information from your Device\'s camera and photo library.',
+                'camera-photo-use': 'We use this information to provide features of Our Service and customize Your experience.',
+                'camera-photo-control': 'You can enable or disable access to this information at any time.',
+                'use-title': 'Use of Your Personal Data',
+                'use-intro': 'The Company may use Personal Data for the following purposes:',
+                'use-1-title': 'To provide and maintain our Service',
+                'use-1-desc': ', including to monitor usage.',
+                'use-2-title': 'To manage Your Account:',
+                'use-2-desc': ' to manage Your registration as a user.',
+                'use-3-title': 'For the performance of a contract:',
+                'use-3-desc': ' the development and compliance of the purchase contract.',
+                'use-4-title': 'To contact You:',
+                'use-4-desc': ' By email, telephone calls, SMS, etc.',
+                'use-5-title': 'To provide You with news',
+                'use-5-desc': ', special offers and general information.',
+                'use-6-title': 'To manage Your requests:',
+                'use-6-desc': ' To attend and manage Your requests to Us.',
+                'share-intro': 'We may share Your Personal Data in the following situations:',
+                'share-1-title': 'With Service Providers:',
+                'share-1-desc': ' To monitor and analyze the use of our Service.',
+                'share-2-title': 'For business transfers:',
+                'share-2-desc': ' In connection with any merger or sale.',
+                'share-3-title': 'With Affiliates:',
+                'share-3-desc': ' We will require those affiliates to honor this Privacy Policy.',
+                'share-4-title': 'With business partners:',
+                'share-4-desc': ' To offer You certain products or services.',
+                'retention-title': 'Retention of Your Personal Data',
+                'retention-desc': 'The Company will retain Your Personal Data only for as long as is necessary.',
+                'transfer-title': 'Transfer of Your Personal Data',
+                'transfer-desc': 'Your information is processed at the Company\'s operating offices.',
+                'delete-title': 'Delete Your Personal Data',
+                'delete-desc': 'You have the right to delete the Personal Data that We have collected about You.',
+                'delete-app': 'Our Service may give You the ability to delete certain information.',
+                'delete-contact': 'You may contact Us to request access to, correct, or delete any Personal Data.',
+                'disclosure-title': 'Disclosure of Your Personal Data',
+                'disclosure-biz-title': 'Business Transactions',
+                'disclosure-biz-desc': 'If the Company is involved in a merger, Your Personal Data may be transferred.',
+                'disclosure-law-title': 'Law enforcement',
+                'disclosure-law-desc': 'Disclosure may be required by law or in response to valid requests.',
+                'ad-title': 'Advertising',
+                'ad-desc': 'We use Service Providers to show advertisements to help support Our Service.',
+                'admob-title': 'Google AdMob',
+                'admob-desc': 'Google AdMob is an advertising service provided by Google Inc.',
+                'admob-use': 'Google may use your device\'s advertising ID to serve personalized ads.',
+                'security-title': 'Security of Your Personal Data',
+                'security-desc': 'The security of Your Personal Data is important to Us.',
+                'children-title': 'Children\'s Privacy',
+                'children-desc': 'Our Service does not address anyone under the age of 16.',
+                'links-title': 'Links to Other Websites',
+                'links-desc': 'Our Service may contain links to other websites that are not operated by Us.',
+                'changes-title': 'Changes to this Privacy Policy',
+                'changes-desc': 'We may update Our Privacy Policy from time to time.',
+                'contact-title': 'Contact Us',
+                'contact-desc': 'If you have any questions, contact us:',
+                'contact-email': 'By email: tiptoptherapyapp@gmail.com',
+                'footer': '&copy; 2026 TipTop. All rights reserved.'
+            },
+            'he': {
+                'title': 'מדיניות פרטיות',
+                'last-updated': 'עודכן לאחרונה: 10 בפברואר, 2026',
+                'intro-1': 'מדיניות פרטיות זו מתארת את המדיניות והנהלים שלנו לגבי איסוף, שימוש וחשיפה של המידע שלך.',
+                'intro-2': 'אנו משתמשים בנתונים האישיים שלך כדי לספק ולשפר את השירות. על ידי שימוש בשירות, אתה מסכים לאיסוף ולשימוש במידע.',
+                'interpretation-title': 'פרשנות והגדרות',
+                'interpretation-sub': 'פרשנות',
+                'interpretation-desc': 'למילים שהאות הראשונה שלהן באות גדולה (באנגלית) יש משמעויות המוגדרות תחת התנאים הבאים.',
+                'definitions-sub': 'הגדרות',
+                'definitions-intro': 'לצורך מדיניות פרטיות זו:',
+                'def-account': '<strong>חשבון</strong> פירושו חשבון ייחודי שנוצר עבורך.',
+                'def-company': '<strong>החברה</strong> מתייחסת ל-TipTop Clinic.',
+                'def-personal': '<strong>נתונים אישיים</strong> הם כל מידע המתייחס לאדם מזוהה.',
+                'def-service': '<strong>השירות</strong> מתייחס לאפליקציה.',
+                'def-you': '<strong>אתה</strong> פירושו האדם הפרטי הניגש לשירות.',
+                'collecting-title': 'איסוף ושימוש בנתונים האישיים שלך',
+                'collecting-types': 'סוגי נתונים שנאספים',
+                'personal-data-sub': 'נתונים אישיים',
+                'personal-data-desc': 'בעת השימוש בשירות שלנו, אנו עשויים לבקש ממך לספק לנו מידע מסוים המאפשר זיהוי אישי.',
+                'usage-data-sub': 'נתוני שימוש',
+                'usage-data-desc': 'נתוני שימוש נאספים באופן אוטומטי בעת השימוש בשירות.',
+                'camera-photo-sub': 'מידע שנאסף בעת השימוש באפליקציה',
+                'camera-photo-desc': 'אנו עשויים לאסוף תמונות ומידע אחר מהמצלמה וספריית התמונות של המכשיר שלך.',
+                'camera-photo-use': 'אנו משתמשים במידע זה כדי לספק תכונות בשירות שלנו ולהתאים אישית את החוויה שלך.',
+                'camera-photo-control': 'ניתן להפעיל או לבטל את הגישה למידע זה בכל עת.',
+                'use-title': 'שימוש בנתונים האישיים שלך',
+                'use-intro': 'החברה עשויה להשתמש בנתונים אישיים למטרות הבאות:',
+                'use-1-title': 'אספקה ותחזוקה של השירות',
+                'use-1-desc': ', כולל ניטור השימוש.',
+                'use-2-title': 'ניהול החשבון שלך:',
+                'use-2-desc': ' ניהול הרישום שלך כמשתמש.',
+                'use-3-title': 'לביצוע חוזה:',
+                'use-3-desc': ' פיתוח וציות לחוזה הרכישה.',
+                'use-4-title': 'ליצירת קשר איתך:',
+                'use-4-desc': ' באמצעות דוא"ל, טלפון, SMS וכו\'.',
+                'use-5-title': 'אספקת חדשות',
+                'use-5-desc': ', הצעות מיוחדות ומידע כללי.',
+                'use-6-title': 'ניהול הבקשות שלך:',
+                'use-6-desc': ' טיפול בבקשותיך אלינו.',
+                'share-intro': 'אנו עשויים לשתף את הנתונים האישיים שלך במצבים הבאים:',
+                'share-1-title': 'עם ספקי שירות:',
+                'share-1-desc': ' לניטור וניתוח השימוש בשירות.',
+                'share-2-title': 'להעברות עסקיות:',
+                'share-2-desc': ' בקשר לכל מיזוג או מכירה.',
+                'share-3-title': 'עם חברות קשורות:',
+                'share-3-desc': ' נחייב אותן לכבד מדיניות פרטיות זו.',
+                'share-4-title': 'עם שותפים עסקיים:',
+                'share-4-desc': ' כדי להציע לך מוצרים או שירותים מסוימים.',
+                'retention-title': 'שמירת הנתונים האישיים שלך',
+                'retention-desc': 'החברה תשמור את הנתונים האישיים שלך רק כל עוד הדבר נחוץ.',
+                'transfer-title': 'העברת הנתונים האישיים שלך',
+                'transfer-desc': 'המידע שלך מעובד במשרדי התפעול של החברה.',
+                'delete-title': 'מחיקת הנתונים האישיים שלך',
+                'delete-desc': 'יש לך הזכות למחוק את הנתונים האישיים שאספנו אודותיך.',
+                'delete-app': 'השירות עשוי לאפשר לך למחוק מידע מסוים.',
+                'delete-contact': 'תוכל ליצור איתנו קשר כדי לבקש גישה, תיקון או מחיקה של נתונים.',
+                'disclosure-title': 'חשיפת הנתונים האישיים שלך',
+                'disclosure-biz-title': 'עסקאות עסקיות',
+                'disclosure-biz-desc': 'אם החברה מעורבת במיזוג, המידע שלך עשוי לעבור.',
+                'disclosure-law-title': 'אכיפת חוק',
+                'disclosure-law-desc': 'חשיפה עשויה להידרש על פי חוק או בתגובה לבקשות תקפות.',
+                'ad-title': 'פרסום',
+                'ad-desc': 'אנו משתמשים בספקי שירות לסיוע בתחזוקת השירות.',
+                'admob-title': 'Google AdMob',
+                'admob-desc': 'Google AdMob הוא שירות פרסום מבית Google.',
+                'admob-use': 'גוגל עשויה להשתמש במזהה הפרסום שלך להתאמת מודעות.',
+                'security-title': 'אבטחת הנתונים האישיים שלך',
+                'security-desc': 'אבטחת הנתונים האישיים שלך חשובה לנו.',
+                'children-title': 'פרטיות ילדים',
+                'children-desc': 'השירות שלנו אינו פונה לילדים מתחת לגיל 16.',
+                'links-title': 'קישורים לאתרים אחרים',
+                'links-desc': 'השירות עשוי להכיל קישורים לאתרים חיצוניים.',
+                'changes-title': 'שינויים במדיניות הפרטיות',
+                'changes-desc': 'אנו עשויים לעדכן את מדיניות הפרטיות מעת לעת.',
+                'contact-title': 'צור קשר',
+                'contact-desc': 'אם יש לך שאלות, צור איתנו קשר:',
+                'contact-email': 'בדוא"ל: tiptoptherapyapp@gmail.com',
+                'footer': '&copy; 2026 TipTop. כל הזכויות שמורות.'
+            }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem('preferredLang', lang);
+            document.documentElement.lang = lang;
+
+            if (lang === 'he') {
+                document.body.classList.add('rtl');
+            } else {
+                document.body.classList.remove('rtl');
+            }
+
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`lang-${lang}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLang') || 'en';
+            setLanguage(savedLang);
+        });
+    </script>
 </body>
 
 </html>

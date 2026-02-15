@@ -459,6 +459,59 @@
             color: black !important;
         }
 
+        /* RTL Support */
+        body.rtl {
+            direction: rtl;
+            text-align: right;
+        }
+
+        body.rtl .store-icon {
+            margin-right: 0;
+            margin-left: 12px;
+        }
+
+        body.rtl .feature-item {
+            text-align: right;
+        }
+
+        body.rtl .store-text {
+            align-items: flex-start;
+        }
+
+        body.rtl .accessibility-btn {
+            left: auto;
+            right: 20px;
+        }
+
+        body.rtl .accessibility-menu {
+            left: auto;
+            right: 20px;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             h1 {
@@ -549,37 +602,42 @@
                 <img src="/images/logo.png" alt="TipTop Logo" class="logo">
                 <span class="brand-name">TipTop Clinic</span>
             </a>
+            <div class="lang-switcher">
+                <button class="lang-btn" id="lang-en" onclick="setLanguage('en')">EN</button>
+                <button class="lang-btn" id="lang-he" onclick="setLanguage('he')">עב</button>
+            </div>
         </div>
     </header>
 
     <section class="hero">
         <div class="container hero-content">
-            <span class="hero-badge">New Release 1.0</span>
-            <h1>Manage Your Clinic<br>Like a Pro</h1>
-            <p class="hero-description">The all-in-one solution for speech therapists. Schedule treatments, manage
+            <span class="hero-badge" data-i18n="hero-badge">New Release 1.0</span>
+            <h1 data-i18n="hero-title">Manage Your Clinic<br>Like a Pro</h1>
+            <p class="hero-description" data-i18n="hero-description">The all-in-one solution for speech therapists.
+                Schedule treatments, manage
                 client records, and handle payments effortlessly.</p>
 
             <div class="download-buttons">
                 <!-- App Store Link Placeholder -->
-                <a href="#" class="store-btn bg-apple" onclick="alert('iOS App coming soon!'); return false;">
+                <a href="#" class="store-btn bg-apple" onclick="alertI18n('ios-soon'); return false;">
                     <svg class="store-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.3-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.21-1.96 1.07-3.11-.96.05-2.13.68-2.82 1.53-.68.82-1.27 2.18-1.12 3.24 1.05.08 2.14-.82 2.87-1.66z" />
                     </svg>
                     <div class="store-text">
-                        <span class="store-intro">Download on the</span>
+                        <span class="store-intro" data-i18n="app-store-intro">Download on the</span>
                         <span class="store-name">App Store</span>
                     </div>
                 </a>
 
                 <!-- Google Play Link Placeholder -->
-                <a href="#" class="store-btn bg-google" onclick="alert('Android App coming soon!'); return false;">
+                <a href="#" class="store-btn bg-google" onclick="alertI18n('android-soon'); return false;">
                     <svg class="store-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85M21.84,11.11C22.05,11.32 22.05,11.68 21.84,11.89L18.34,15.29L15.39,12L18.34,8.71L21.84,12.11M16.81,8.88L14.54,11.15L6.05,2.66L16.81,8.88M21.84,12.11L18.34,8.71L15.39,12L18.34,15.29L21.84,11.89C22.05,11.68 22.05,11.32 21.84,11.11L21.84,12.11Z" />
                     </svg>
                     <div class="store-text">
-                        <span class="store-intro">Get it on</span>
+                        <span class="store-intro" data-i18n="google-play-intro">Get it on</span>
                         <span class="store-name">Google Play</span>
                     </div>
                 </a>
@@ -590,19 +648,23 @@
     <section class="preview-section">
         <div class="container">
             <div class="preview-card">
-                <h2 style="color: var(--primary-color); margin-bottom: 20px;">Everything You Need</h2>
+                <h2 style="color: var(--primary-color); margin-bottom: 20px;" data-i18n="features-title">Everything You
+                    Need</h2>
                 <div class="feature-grid">
                     <div class="feature-item">
-                        <h3>Easy Scheduling</h3>
-                        <p>Manage your appointments with a smart calendar designed for therapy clinics.</p>
+                        <h3 data-i18n="feature-1-title">Easy Scheduling</h3>
+                        <p data-i18n="feature-1-desc">Manage your appointments with a smart calendar designed for
+                            therapy clinics.</p>
                     </div>
                     <div class="feature-item">
-                        <h3>Client Records</h3>
-                        <p>Keep track of treatment history, progress notes, and personal details securely.</p>
+                        <h3 data-i18n="feature-2-title">Client Records</h3>
+                        <p data-i18n="feature-2-desc">Keep track of treatment history, progress notes, and personal
+                            details securely.</p>
                     </div>
                     <div class="feature-item">
-                        <h3>Seamless Payments</h3>
-                        <p>Request and track payments directly through the app with automated reminders.</p>
+                        <h3 data-i18n="feature-3-title">Seamless Payments</h3>
+                        <p data-i18n="feature-3-desc">Request and track payments directly through the app with automated
+                            reminders.</p>
                     </div>
                 </div>
             </div>
@@ -612,15 +674,16 @@
     <footer>
         <div class="container">
             <span class="footer-logo">TipTop</span>
-            <p>Empowering Speech Therapists Everywhere.</p>
+            <p data-i18n="footer-slogan">Empowering Speech Therapists Everywhere.</p>
             <div class="footer-links" style="margin-top: 20px;">
-                <a href="/privacy-policy"
+                <a href="/privacy-policy" data-i18n="privacy-policy"
                     style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; border-bottom: 1px solid transparent;">Privacy
                     Policy</a>
             </div>
             <div class="copyright">
                 &copy;
-                <script>document.write(new Date().getFullYear())</script> TipTop Clinic. All rights reserved.
+                <script>document.write(new Date().getFullYear())</script> <span data-i18n="copyright">TipTop Clinic. All
+                    rights reserved.</span>
             </div>
         </div>
     </footer>
@@ -628,17 +691,18 @@
     <!-- Cookie Consent Modal -->
     <div id="cookieConsent" class="cookie-consent">
         <div class="cookie-content">
-            <p>We use cookies to improve your experience and analyze our traffic. By continuing to browse, you agree to
+            <p data-i18n="cookie-notice">We use cookies to improve your experience and analyze our traffic. By
+                continuing to browse, you agree to
                 our use of cookies.</p>
         </div>
         <div class="cookie-buttons">
-            <button class="cookie-btn btn-decline" id="declineCookies">Decline</button>
-            <button class="cookie-btn btn-accept" id="acceptCookies">Accept</button>
+            <button class="cookie-btn btn-decline" id="declineCookies" data-i18n="cookie-decline">Decline</button>
+            <button class="cookie-btn btn-accept" id="acceptCookies" data-i18n="cookie-accept">Accept</button>
         </div>
     </div>
 
     <!-- Accessibility Tool -->
-    <div class="accessibility-btn" id="accBtn" title="נגישות">
+    <div class="accessibility-btn" id="accBtn" title="נגישות / Accessibility">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="5" r="3" />
@@ -650,32 +714,124 @@
     </div>
     <div class="accessibility-menu" id="accMenu">
         <div class="acc-header">
-            <span>נגישות</span>
+            <span data-i18n="acc-header">נגישות</span>
             <button id="closeAcc"
                 style="border:none; background:none; cursor:pointer; font-size:1.5rem;">&times;</button>
         </div>
         <div class="acc-option" onclick="toggleAcc('large-text')">
-            <span>הגדלת טקסט</span>
+            <span data-i18n="acc-large-text">הגדלת טקסט</span>
             <span class="status"></span>
         </div>
         <div class="acc-option" onclick="toggleAcc('high-contrast')">
-            <span>ניגודיות גבוהה</span>
+            <span data-i18n="acc-high-contrast">ניגודיות גבוהה</span>
             <span class="status"></span>
         </div>
         <div class="acc-option" onclick="toggleAcc('grayscale')">
-            <span>גווני אפור</span>
+            <span data-i18n="acc-grayscale">גווני אפור</span>
             <span class="status"></span>
         </div>
         <div class="acc-option" onclick="toggleAcc('links-highlight')">
-            <span>הדגשת קישורים</span>
+            <span data-i18n="acc-links-highlight">הדגשת קישורים</span>
             <span class="status"></span>
         </div>
-        <button class="cookie-btn btn-decline" style="width:100%; margin-top:10px;" onclick="resetAcc()">איפוס
+        <button class="cookie-btn btn-decline" style="width:100%; margin-top:10px;" onclick="resetAcc()"
+            data-i18n="acc-reset">איפוס
             הגדרות</button>
     </div>
 
     <script>
+        const translations = {
+            'en': {
+                'hero-badge': 'New Release 1.0',
+                'hero-title': 'Manage Your Clinic<br>Like a Pro',
+                'hero-description': 'The all-in-one solution for speech therapists. Schedule treatments, manage client records, and handle payments effortlessly.',
+                'app-store-intro': 'Download on the',
+                'google-play-intro': 'Get it on',
+                'features-title': 'Everything You Need',
+                'feature-1-title': 'Easy Scheduling',
+                'feature-1-desc': 'Manage your appointments with a smart calendar designed for therapy clinics.',
+                'feature-2-title': 'Client Records',
+                'feature-2-desc': 'Keep track of treatment history, progress notes, and personal details securely.',
+                'feature-3-title': 'Seamless Payments',
+                'feature-3-desc': 'Request and track payments directly through the app with automated reminders.',
+                'footer-slogan': 'Empowering Speech Therapists Everywhere.',
+                'privacy-policy': 'Privacy Policy',
+                'copyright': 'TipTop Clinic. All rights reserved.',
+                'cookie-notice': 'We use cookies to improve your experience and analyze our traffic. By continuing to browse, you agree to our use of cookies.',
+                'cookie-accept': 'Accept',
+                'cookie-decline': 'Decline',
+                'acc-header': 'Accessibility',
+                'acc-large-text': 'Large Text',
+                'acc-high-contrast': 'High Contrast',
+                'acc-grayscale': 'Grayscale',
+                'acc-links-highlight': 'Highlight Links',
+                'acc-reset': 'Reset Settings',
+                'ios-soon': 'iOS App coming soon!',
+                'android-soon': 'Android App coming soon!'
+            },
+            'he': {
+                'hero-badge': 'גרסה חדשה 1.0',
+                'hero-title': 'נהלו את הקליניקה שלכם<br>כמו מקצוענים',
+                'hero-description': 'הפתרון המושלם לקלינאי תקשורת ומטפלים. קביעת תורים, ניהול תיקי מטופלים ותשלומים - הכל במקום אחד.',
+                'app-store-intro': 'הורדה ב-',
+                'google-play-intro': 'הורדה ב-',
+                'features-title': 'כל מה שאתם צריכים',
+                'feature-1-title': 'קביעת תורים קלה',
+                'feature-1-desc': 'ניהול תורים עם יומן חכם המותאם לקליניקות טיפוליות.',
+                'feature-2-title': 'תיקי מטופלים',
+                'feature-2-desc': 'מעקב אחר היסטוריית טיפולים, סיכומי מפגשים ומידע אישי בצורה מאובטחת.',
+                'feature-3-title': 'תשלומים פשוטים',
+                'feature-3-desc': 'הפקת דרישות תשלום ומעקב ישירות מהאפליקציה עם תזכורות אוטומטיות.',
+                'footer-slogan': 'מעצימים קלינאי תקשורת בכל מקום.',
+                'privacy-policy': 'מדיניות פרטיות',
+                'copyright': 'TipTop Clinic. כל הזכויות שמורות.',
+                'cookie-notice': 'אנו משתמשים בעוגיות כדי לשפר את החוויה שלכם ולנתח את התנועה באתר. בהמשך הגלישה אתם מסכימים לשימוש בעוגיות.',
+                'cookie-accept': 'אישור',
+                'cookie-decline': 'ביטול',
+                'acc-header': 'נגישות',
+                'acc-large-text': 'הגדלת טקסט',
+                'acc-high-contrast': 'ניגודיות גבוהה',
+                'acc-grayscale': 'גווני אפור',
+                'acc-links-highlight': 'הדגשת קישורים',
+                'acc-reset': 'איפוס הגדרות',
+                'ios-soon': 'האפליקציה ל-iOS תגיע בקרוב!',
+                'android-soon': 'האפליקציה לאנדרואיד תגיע בקרוב!'
+            }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem('preferredLang', lang);
+            document.documentElement.lang = lang;
+
+            if (lang === 'he') {
+                document.body.classList.add('rtl');
+            } else {
+                document.body.classList.remove('rtl');
+            }
+
+            // Update active button state
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`lang-${lang}`).classList.add('active');
+
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        function alertI18n(key) {
+            const lang = localStorage.getItem('preferredLang') || 'en';
+            alert(translations[lang][key]);
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
+            // Language Initialization
+            const savedLang = localStorage.getItem('preferredLang') || 'en';
+            setLanguage(savedLang);
+
             // Cookie Consent Logic
             const cookieConsent = document.getElementById('cookieConsent');
             const acceptBtn = document.getElementById('acceptCookies');
@@ -713,7 +869,6 @@
             window.toggleAcc = function (className) {
                 document.body.classList.toggle(className);
                 const isActive = document.body.classList.contains(className);
-                // Save state
                 localStorage.setItem('acc-' + className, isActive);
             };
 
