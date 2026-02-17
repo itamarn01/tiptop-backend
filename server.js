@@ -28,6 +28,11 @@ app.get("/privacy-policy", (req, res) => {
     res.render("privacy-policy");
 });
 
+app.get("/app-ads.txt", (req, res) => {
+    res.set("Content-Type", "text/plain");
+    res.sendFile(path.join(__dirname, "public", "app-ads.txt"));
+});
+
 // Route to render the form dynamically
 app.get("/form/:token", async (req, res) => {
     const { token } = req.params;
