@@ -171,3 +171,19 @@ function getUpdateStatus(currentVersion, latestVersion) {
 
     return "noUpdate"; // Versions are identical or current is newer
 }
+const https = require('https');
+
+// הגדרת הכתובת של השרת שלך ב-Render
+const URL = 'https://tiptop-backend.onrender.com/ping'; 
+
+setInterval(() => {
+  https.get(URL, (res) => {
+    if (res.statusCode === 200) {
+      console.log('Self-ping successful: Server is awake');
+    } else {
+      console.error(`Self-ping failed with status: ${res.statusCode}`);
+    }
+  }).on('error', (err) => {
+    console.error('Error during self-ping:', err.message);
+  });
+}, 14 * 60 * 1000); // 14 דקות במילישניות
