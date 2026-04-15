@@ -18,10 +18,25 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+    
+    // Ping the server every 14 minutes to prevent Render cold starts
+    const BACKEND_URL = process.env.RENDER_EXTERNAL_URL || process.env.BACKEND_URL || `https://tiptop-backend.onrender.com`;
+    setInterval(async () => {
+        try {
+            await axios.get(`${BACKEND_URL}/ping`);
+            console.log(`Pinged ${BACKEND_URL}/ping successfully`);
+        } catch (error) {
+            console.error(`Error pinging ${BACKEND_URL}/ping:`, error.message);
+        }
+    }, 14 * 60 * 1000); // 14 minutes
 });
 
 app.get("/", (req, res) => {
     res.render("landing");
+});
+
+app.get("/ping", (req, res) => {
+    res.status(200).send("pong");
 });
 
 app.get("/privacy-policy", (req, res) => {
@@ -171,19 +186,3 @@ function getUpdateStatus(currentVersion, latestVersion) {
 
     return "noUpdate"; // Versions are identical or current is newer
 }
-const https = require('https');
-
-// הגדרת הכתובת של השרת שלך ב-Render
-const URL = 'https://tiptop-backend.onrender.com/ping'; 
-
-setInterval(() => {
-  https.get(URL, (res) => {
-    if (res.statusCode === 200) {
-      console.log('Self-ping successful: Server is awake');
-    } else {
-      console.error(`Self-ping failed with status: ${res.statusCode}`);
-    }
-  }).on('error', (err) => {
-    console.error('Error during self-ping:', err.message);
-  });
-}, 14 * 60 * 1000); // 14 דקות במילישניות
